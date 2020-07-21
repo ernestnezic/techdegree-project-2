@@ -2,39 +2,54 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
+
+
+//current student list
+const ul = document.getElementsByClassName('student-list')[0];
+//all li student objects (a collection)
+const li = ul.children;
+//parent of new list
+const div = document.getElementsByClassName('page')[0]
+
+//Creating the div element, setting its className to 'pagination' and appending it to DOM
+const showListDiv = document.createElement('div');
+showListDiv.className = 'pagination';
+div.insertBefore(showListDiv, ul.nextSibling);
+
+//Creating the ul element and appending it to DOM
+const showListUl = document.createElement('ul');
+showListDiv.appendChild(showListUl);
+
+
+
+//Logging all of the names from the li to the console
+for ( let i = 0; i < li.length; i++) {
+   let div = li[i].querySelector('h3');
+   console.log(div)
+}
+
+
+//Showing 10 elements coresponding to the page selected
+function showPage ( listOfStudents, pageNo ) {
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
+   const numberOfStudents = listOfStudents.length;
+   const lowIndex = pageNo * 10 - 10;
+   const highIndex = pageNo * 10 - 1;
    
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
+   for ( let i = 0; i < numberOfStudents; i++ ) {
+      
+      if ( i >= lowIndex && i <= highIndex) {
+         showListUl.appendChild(listOfStudents[ i ]);
+      } 
 
+   }
 
+   div.removeChild(ul);
 
+}
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
+//Calling a hardcoded function to check function functionality
+showPage( li, 3 );
 
 
 
@@ -42,9 +57,3 @@ FSJS project 2 - List Filter and Pagination
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
-
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
