@@ -4,12 +4,76 @@ FSJS project 2 - List Filter and Pagination
 ******************************************/
 
 
-//current student list
+//Current student list
 const allStudentsUl = document.getElementsByClassName('student-list')[0];
-//collection of 'li' student objects
+//Collection of 'li' student objects
 const allStudentsLi = allStudentsUl.children;
-//parent of the student lists (current and new)
+//Parent of the student lists (current and new)
 const parentDiv = document.getElementsByClassName('page')[0]
+
+//Creating the search 'div' element and setting its class name to student search
+const searchBarDiv = document.createElement('div');
+searchBarDiv.className = 'student-search';
+
+//Creating the search bar ('input') element, setting its placeholder text and appending it to the search 'div'
+const searchBarInput = document.createElement('input');
+searchBarInput.placeholder = 'Search for students...';
+searchBarDiv.appendChild(searchBarInput);
+
+//Creating the search button ('button') element, setting its inner text and appending it to the search 'div'
+const searchButton = document.createElement('button');
+searchButton.textContent = 'Search';
+searchBarDiv.appendChild(searchButton);
+
+//Appending the search 'div' element to the DOM 
+const searchBarParent = document.getElementsByClassName('page-header cf')[0];
+searchBarParent.appendChild(searchBarDiv);
+
+//Getting student names collection to pass into 'searchFunc' function
+const studentNamesCollection = document.getElementsByTagName('h3');
+console.log(studentNamesCollection);
+
+
+function searchFunc ( searchBarInput, studentNames ) {
+  
+   for ( let i = 0; i < studentNames.length; i++ ) {
+     studentNames[i].className = '';
+     if ( searchBarInput.value.length !== 0 && studentNames[i].textContent.toLowerCase().includes(searchBarInput.value.toLowerCase()) ) {
+       studentNames[i].className = 'match';
+     }
+   }
+   
+   console.log(updateStudentCollection());
+ }
+
+
+function updateStudentCollection () {
+   
+   currentCollection = allStudentsLi;
+   newCollection = [];
+
+   for ( let i = 0; i < currentCollection.length; i++ ) {
+      const currentLi = currentCollection[i];
+
+      if ( currentLi.tagName === 'match' ) {
+         newCollection.push(currentLi);
+      }
+   }
+   return newCollection;
+  
+}
+
+
+
+
+searchButton.addEventListener('click', (e) => {
+   e.preventDefault(); 
+   searchFunc ( searchBarInput, studentNamesCollection );
+ });
+ 
+ searchBarInput.addEventListener('keyup', () => {  
+   searchFunc ( searchBarInput, studentNamesCollection );
+ });
 
 
 /**
