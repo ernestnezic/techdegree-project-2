@@ -85,3 +85,6 @@ function appendPageLinks ( listOfStudents ) {
    }
 
 }
+
+appendPageLinks( li );
+showPage( li, 1 );
