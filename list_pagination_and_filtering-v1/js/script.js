@@ -8,14 +8,8 @@ FSJS project 2 - List Filter and Pagination
 const ul = document.getElementsByClassName('student-list')[0];
 //all li student objects (a collection)
 const li = ul.children;
-//parent of new list
+//parent of the student list
 const div = document.getElementsByClassName('page')[0]
-
-//Creating the div element, setting its className to 'pagination' and appending it to DOM
-const showListDiv = document.createElement('div');
-showListDiv.className = 'pagination';
-div.insertBefore(showListDiv, ul.nextSibling);
-
 
 //Logging all of the names from the li to the console
 
@@ -25,8 +19,6 @@ for ( let i = 0; i < li.length; i++) {
    console.log(div)
 }
 */
-
-
 
 //Showing 10 elements coresponding to the page selected
 function showPage ( listOfStudents, pageNo ) {
@@ -47,14 +39,49 @@ function showPage ( listOfStudents, pageNo ) {
    }
 }
 
-//Calling a hardcoded function to check function functionality
-/*
-showPage( li, 3 );
-*/
-
-
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+
+function appendPageLinks ( listOfStudents ) {
+
+   const nOfPages = Math.ceil( li.length / 10 );
+
+   //Creating the pagination links div element, setting its className to 'pagination' and appending it to DOM
+   const paginationDiv = document.createElement('div');
+   paginationDiv.className = 'pagination';
+   div.insertBefore(paginationDiv, ul.nextSibling);
+
+   //Creating the pagination links ul element and appending it to the pagination links div element
+   const paginationUl = document.createElement('ul');
+   paginationDiv.appendChild(paginationUl);
+
+   for ( let i = 0; i < nOfPages; i++ ) {
+      const paginationLi = document.createElement('li');
+      
+      const paginationAnchorLink = document.createElement('a');
+      paginationAnchorLink.href = '#';
+      paginationAnchorLink.textContent = (i + 1).toString();
+
+      paginationLi.appendChild(paginationAnchorLink);
+      paginationUl.appendChild(paginationLi);
+   }
+
+   const paginationLiCollection = paginationUl.children;
+   paginationLiCollection[0].firstElementChild.className = 'active';
+
+   for ( let i = 0; i < paginationLiCollection.length; i++ ) {
+      const currentAnchorLink = paginationLiCollection[i].firstElementChild;
+      
+      currentAnchorLink.addEventListener('click', (e) => {
+         showPage( li, +currentAnchorLink.textContent );
+         for ( let i = 0; i < paginationLiCollection.length; i++) {
+            paginationLiCollection[i].firstElementChild.className = '';
+         }
+         e.target.className = 'active'
+      })
+   }
+
+}
