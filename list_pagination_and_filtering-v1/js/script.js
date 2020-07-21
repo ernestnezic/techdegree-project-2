@@ -5,11 +5,11 @@ FSJS project 2 - List Filter and Pagination
 
 
 //current student list
-const ul = document.getElementsByClassName('student-list')[0];
+const allStudentsUl = document.getElementsByClassName('student-list')[0];
 //collection of 'li' student objects
-const li = ul.children;
+const allStudentsLi = allStudentsUl.children;
 //parent of the student lists (current and new)
-const div = document.getElementsByClassName('page')[0]
+const parentDiv = document.getElementsByClassName('page')[0]
 
 
 /**
@@ -50,12 +50,12 @@ function showPage ( listOfStudents, pageNo ) {
 function appendPageLinks ( listOfStudents ) {
 
    //Calculating the number of pages required based on the number of 'li' student objects
-   const nOfPages = Math.ceil( li.length / 10 );
+   const nOfPages = Math.ceil( allStudentsLi.length / 10 );
 
    //Creating the pagination links div element, setting its className to 'pagination' and appending it to DOM
    const paginationDiv = document.createElement('div');
    paginationDiv.className = 'pagination';
-   div.insertBefore(paginationDiv, ul.nextSibling);
+   parentDiv.insertBefore(paginationDiv, allStudentsUl.nextSibling);
 
    //Creating the pagination links ul element and appending it to the pagination links div element
    const paginationUl = document.createElement('ul');
@@ -89,7 +89,7 @@ function appendPageLinks ( listOfStudents ) {
       
       //Adding the event listener listening for the click event, then targeting the link pressed with the event object and target property
       currentAnchorLink.addEventListener('click', (e) => {
-         showPage( li, +currentAnchorLink.textContent );
+         showPage( allStudentsLi, +currentAnchorLink.textContent );
          for ( let i = 0; i < paginationLiCollection.length; i++) {
             //Removing current 'active' class name from an 'anchor' object that has it
             paginationLiCollection[i].firstElementChild.className = '';
@@ -102,7 +102,7 @@ function appendPageLinks ( listOfStudents ) {
 }
 
 //Calling on the 'appendPageLinks' function passing in the whole 'li' collection of student objects
-appendPageLinks( li );
+appendPageLinks( allStudentsLi );
 
 //Showing the first page when the web page loads
-showPage( li, 1 );
+showPage( allStudentsLi, 1 );
