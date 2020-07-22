@@ -10,6 +10,12 @@ const allStudentsUl = document.getElementsByClassName('student-list')[0];
 let allStudentsLi = allStudentsUl.children;
 //Parent of the student lists (current and new)
 const parentDiv = document.getElementsByClassName('page')[0]
+//current student list
+const ul = document.getElementsByClassName('student-list')[0];
+//collection of 'li' student objects
+const li = ul.children;
+//parent of the student lists (current and new)
+const div = document.getElementsByClassName('page')[0]
 
 //Creating the search 'div' element and setting its class name to student search
 const searchBarDiv = document.createElement('div');
@@ -118,12 +124,12 @@ function showPage ( listOfStudents, pageNo ) {
 function appendPageLinks ( listOfStudents ) {
 
    //Calculating the number of pages required based on the number of 'li' student objects
-   const nOfPages = Math.ceil( allStudentsLi.length / 10 );
+   const nOfPages = Math.ceil( li.length / 10 );
 
    //Creating the pagination links div element, setting its className to 'pagination' and appending it to DOM
    const paginationDiv = document.createElement('div');
    paginationDiv.className = 'pagination';
-   parentDiv.insertBefore(paginationDiv, allStudentsUl.nextSibling);
+   div.insertBefore(paginationDiv, ul.nextSibling);
 
    //Creating the pagination links ul element and appending it to the pagination links div element
    const paginationUl = document.createElement('ul');
@@ -157,7 +163,7 @@ function appendPageLinks ( listOfStudents ) {
       
       //Adding the event listener listening for the click event, then targeting the link pressed with the event object and target property
       currentAnchorLink.addEventListener('click', (e) => {
-         showPage( allStudentsLi, +currentAnchorLink.textContent );
+         showPage( li, +currentAnchorLink.textContent );
          for ( let i = 0; i < paginationLiCollection.length; i++) {
             //Removing current 'active' class name from an 'anchor' object that has it
             paginationLiCollection[i].firstElementChild.className = '';
@@ -170,7 +176,7 @@ function appendPageLinks ( listOfStudents ) {
 }
 
 //Calling on the 'appendPageLinks' function passing in the whole 'li' collection of student objects
-appendPageLinks( allStudentsLi );
+appendPageLinks( li );
 
 //Showing the first page when the web page loads
-showPage( allStudentsLi, 1 );
+showPage( li, 1 );
