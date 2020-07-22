@@ -7,7 +7,7 @@ FSJS project 2 - List Filter and Pagination
 //Current student list
 const allStudentsUl = document.getElementsByClassName('student-list')[0];
 //Collection of 'li' student objects
-const allStudentsLi = allStudentsUl.children;
+let allStudentsLi = allStudentsUl.children;
 //Parent of the student lists (current and new)
 const parentDiv = document.getElementsByClassName('page')[0]
 
@@ -31,19 +31,20 @@ searchBarParent.appendChild(searchBarDiv);
 
 //Getting student names collection to pass into 'searchFunc' function
 const studentNamesCollection = document.getElementsByTagName('h3');
-console.log(studentNamesCollection);
 
 
-function searchFunc ( searchBarInput, studentNames ) {
+
+function searchFunc ( searchBarInput, students ) {
   
-   for ( let i = 0; i < studentNames.length; i++ ) {
-     studentNames[i].className = '';
-     if ( searchBarInput.value.length !== 0 && studentNames[i].textContent.toLowerCase().includes(searchBarInput.value.toLowerCase()) ) {
-       studentNames[i].className = 'match';
+   for ( let i = 0; i < students.length; i++ ) {
+      currentStudentName = students[i].getElementsByTagName('h3')[0];
+      
+     students[i].className = '';
+     if ( searchBarInput.value !== '' && currentStudentName.textContent.toLowerCase().includes(searchBarInput.toLowerCase()) ) {
+       students[i].className = 'match';
      }
    }
-   
-   console.log(updateStudentCollection());
+   updateStudentCollection();
  }
 
 
@@ -54,13 +55,13 @@ function updateStudentCollection () {
 
    for ( let i = 0; i < currentCollection.length; i++ ) {
       const currentLi = currentCollection[i];
+      
 
-      if ( currentLi.tagName === 'match' ) {
+      if ( currentLi.className === 'match' ) {
          newCollection.push(currentLi);
       }
    }
-   return newCollection;
-  
+   allStudentsLi = newCollection;
 }
 
 
@@ -68,11 +69,14 @@ function updateStudentCollection () {
 
 searchButton.addEventListener('click', (e) => {
    e.preventDefault(); 
-   searchFunc ( searchBarInput, studentNamesCollection );
+   searchFunc ( e.target.value, allStudentsLi );
  });
  
- searchBarInput.addEventListener('keyup', () => {  
-   searchFunc ( searchBarInput, studentNamesCollection );
+ searchBarInput.addEventListener('keyup', (e) => {  
+   
+   const searchValue = e.target.value;
+
+   searchFunc ( searchValue, allStudentsLi );
  });
 
 
